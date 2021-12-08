@@ -1,6 +1,6 @@
 import {GET_USER_NAME} from '../types';
 
-const initialState = 'Юрий';
+const initialState = {name: 'Юрий', test: 2};
 
 export default function (state = initialState, action) {
 

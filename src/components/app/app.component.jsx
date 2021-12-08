@@ -21,36 +21,39 @@ export class App extends React.Component {
         return (
             // <Provider store={store}>
                 <div className="ui-app">
+                    <Counter>
+
+                    </Counter>
                     {/* navigation */}
                     <div className="ui-app__navigation">
-                        <Link
-                            className="ui-app__navigation__link"
-                            activeClassName="ui-app__navigation__link--active"
-                            to="/"
-                            exact={true}
-                        >Counter</Link>
+                        {/*<Link*/}
+                        {/*    className="ui-app__navigation__link"*/}
+                        {/*    activeClassName="ui-app__navigation__link--active"*/}
+                        {/*    to="/"*/}
+                        {/*    exact={true}*/}
+                        {/*>Counter</Link>*/}
 
-                        <Link
-                            className="ui-app__navigation__link"
-                            activeClassName="ui-app__navigation__link--active"
-                            to="/post"
-                            exact={true}
-                        >Post</Link>
+                        {/*<Link*/}
+                        {/*    className="ui-app__navigation__link"*/}
+                        {/*    activeClassName="ui-app__navigation__link--active"*/}
+                        {/*    to="/post"*/}
+                        {/*    exact={true}*/}
+                        {/*>Post</Link>*/}
                     </div>
 
-                    <Switch>
-                        <Route
-                            path="/"
-                            exact={true}
-                            render={() => <Counter name="Monica Geller"/>}
-                        />
+                    {/*<Switch>*/}
+                    {/*    <Route*/}
+                    {/*        path="/"*/}
+                    {/*        exact={true}*/}
+                    {/*        render={() => <Counter name="Monica Geller"/>}*/}
+                    {/*    />*/}
 
-                        <Route
-                            path="/post"
-                            exact={true}
-                            component={Post}
-                        />
-                    </Switch>
+                    {/*    <Route*/}
+                    {/*        path="/post"*/}
+                    {/*        exact={true}*/}
+                    {/*        component={Post}*/}
+                    {/*    />*/}
+                    {/*</Switch>*/}
 
                 </div>
             // </Provider>
