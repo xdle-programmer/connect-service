@@ -1,5 +1,4 @@
-const { Counter } = require( '../src/components/counter' );
-const { Post } = require( '../src/components/post' );
+const Counter = require( '../src/components/counter/counter.component.jsx' );
 
 module.exports = [
     {
@@ -7,9 +6,4 @@ module.exports = [
         exact: true,
         component: Counter,
     },
-    {
-        path: '/post',
-        exact: true,
-        component: Post,
-    }
 ];

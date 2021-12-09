@@ -1,17 +1,15 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getUserName} from '../../store/actions/userActions'
-export function Counter(props) {
+import {getUserName} from '../../store/actions/userActions';
 
-
-    console.log(props);
+const Counter = (props) => {
 
     useEffect
     (
         () => {
 
-        },[]
-    )
+        }, []
+    );
 
     // Импорт диспатчера
     const dispatch = useDispatch();
@@ -19,8 +17,8 @@ export function Counter(props) {
     // Подписка на изменение стейта тикера
     const user = useSelector(state => state.user.name);
 
-    function setUser(){
-        console.log("Тык")
+    function setUser() {
+        console.log("Тык");
         dispatch(getUserName());
     }
 
@@ -32,9 +30,11 @@ export function Counter(props) {
                 <p className="ui-counter__body__name">{user}</p>
             </div>
 
-            <div className='ui-counter__body' onClick={setUser}>
-            Тык
+            <div className="ui-counter__body" onClick={setUser}>
+                Тык
             </div>
         </div>
     );
-}
+};
+
+export default Counter;
