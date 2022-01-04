@@ -1,5 +1,9 @@
-import React, { ComponentType, lazy, LazyExoticComponent, ReactNode } from 'react';
-import Counter from '../components/counter/counter.component'
+import React, {ComponentType, lazy, LazyExoticComponent, ReactNode} from 'react';
+import Counter from '../components/counter/counter.component';
+import App from '../components/appProvider/appProvider';
+import About from '../components/about/about.component';
+import AboutSubText from '../components/about/about-sub-text/about-sub-text.component';
+import AboutSubImage from '../components/about/about-sub-image/about-sub-image.component';
 
 // export interface IRoute {
 //     // Path, like in basic prop
@@ -18,6 +22,42 @@ import Counter from '../components/counter/counter.component'
 //     private?: boolean;
 // }
 
+// export const routes = [{
+//         component: App,
+//         routes: [
+//             {
+//                 path: '/',
+//                 exact: true,
+//                 component: Counter,
+//                 fallback: <div> Loading... </div>
+//             },
+//             {
+//                 path: '/home',
+//                 redirect: '/',
+//                 component: Counter,
+//                 fallback: <div> Loading... </div>
+//             },
+//             {
+//                 path: '/about',
+//                 component: About,
+//                 routes: [
+//                     {
+//                         path: "/about/text",
+//                         component: AboutSubText
+//                     },
+//                     {
+//                         path: "/about/image",
+//                         component: AboutSubImage
+//                     }
+//                 ],
+//                 fallback: <div> Loading... </div>
+//
+//             }]
+//     }
+//     ]
+// ;
+//
+
 export const routes = [
     {
         path: '/',
@@ -27,12 +67,25 @@ export const routes = [
     },
     {
         path: '/home',
-        exact: true,
         redirect: '/',
         component: Counter,
         fallback: <div> Loading... </div>
-    }
-];
+    },
+    {
+        path: '/about',
+        component: About,
+        routes: [
+            {
+                path: "/about/text",
+                component: AboutSubText
+            },
+            {
+                path: "/about/image",
+                component: AboutSubImage
+            }
+        ],
+        fallback: <div> Loading... </div>
+    }];
 
 // {
 //     path: '/home',

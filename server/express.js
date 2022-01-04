@@ -20,6 +20,8 @@ app.get(/\.(js|css|map|ico)$/, express.static(path.resolve(__dirname, '../dist')
 // for any other requests, send `index.html` as a response
 app.use('*', async (req, res) => {
 
+    console.log(123123123123)
+
     // get matched route
     const matchRoute = routes.find(route => matchPath(req.originalUrl, route));
 

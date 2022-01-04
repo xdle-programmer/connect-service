@@ -1,8 +1,8 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import {Switch} from 'react-router-dom';
 import RouteWithSubRoutes from './RouterWithSubRoutes';
 
-const Router = ({ routes }) => {
+const Router = ({routes}) => {
     return <Switch>{routes.map((route) => <RouteWithSubRoutes key={route.path} {...route} />)}</Switch>;
 };
 
