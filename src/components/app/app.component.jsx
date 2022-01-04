@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Counter from '../counter/counter.component.jsx';
+import {Link} from "react-router-dom";
 
 const App = () => {
 

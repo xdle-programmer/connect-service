@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserName} from '../../store/actions/userActions';
+import {Link} from "react-router-dom";
 
 const Counter = (props) => {
 
@@ -33,6 +34,7 @@ const Counter = (props) => {
             <div className="ui-counter__body" onClick={setUser}>
                 Тык
             </div>
+
         </div>
     );
 };
