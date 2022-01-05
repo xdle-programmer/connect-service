@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {BrowserRouter} from 'react-router-dom';
 
 import App from '../components/app/app.component.jsx';
@@ -10,15 +10,27 @@ import {routes} from "../router/config";
 
 const AppProvider = () => {
 
-    return (
-        <BrowserRouter>
+    const ProviderHandler = () => {
+
+        return (
             <Provider store={store}>
                 <App>
                     <Router routes={routes}/>
                 </App>
             </Provider>
-        </BrowserRouter>
-    );
+        );
+    };
 
+    if (typeof window === 'object') {
+        return (
+            <BrowserRouter>
+                <ProviderHandler/>
+            </BrowserRouter>
+        );
+    } else {
+        return (
+            <ProviderHandler/>
+        );
+    }
 };
 export default AppProvider;

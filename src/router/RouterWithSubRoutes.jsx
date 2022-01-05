@@ -6,23 +6,37 @@ import {Redirect, Route} from 'react-router-dom';
 const RouteWithSubRoutes = (route) => {
 
     /** Authenticated flag */
-    //const authenticated: boolean = user.authenticated;
+        //const authenticated: boolean = user.authenticated;
 
-    return (
-        <Suspense fallback={route.fallback}>
-            <Route
-                path={route.path}
-                render={(props) => {
-                    if (route.redirect) {
-                        return <Redirect to={route.redirect}/>;
-                    } else {
-                        return route.component && <route.component {...props} routes={route.routes}/>;
+    const RouteHandler = () => {
+            return (
+                <Route
+                    path={route.path}
+                    render={(props) => {
+                        if (route.redirect) {
+                            return <Redirect to={route.redirect}/>;
+                        } else {
+                            return route.component && <route.component {...props} routes={route.routes}/>;
+                        }
                     }
-                }
-                }
-            />
-        </Suspense>
-    );
+                    }
+                />
+            );
+        };
+
+    if (typeof window === 'object') {
+        return (
+            <Suspense fallback={route.fallback}>
+                <RouteHandler/>
+            </Suspense>
+        );
+    } else {
+        return (
+            <RouteHandler/>
+        );
+    }
+
+
 };
 
 export default RouteWithSubRoutes;

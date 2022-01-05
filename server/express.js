@@ -9,7 +9,7 @@ const {StaticRouter, matchPath} = require('react-router-dom');
 const app = express();
 
 // import App component
-const App = require('../src/components/appProvider/appProvider').default;
+const App = require('../src/provider/Provider.jsx').default;
 
 // import routes
 const routes = require('./routes');
@@ -20,7 +20,7 @@ app.get(/\.(js|css|map|ico)$/, express.static(path.resolve(__dirname, '../dist')
 // for any other requests, send `index.html` as a response
 app.use('*', async (req, res) => {
 
-    console.log(123123123123)
+    console.log(routes)
 
     // get matched route
     const matchRoute = routes.find(route => matchPath(req.originalUrl, route));
@@ -61,11 +61,3 @@ app.use('*', async (req, res) => {
 app.listen('9000', () => {
     console.log('Express server started at http://localhost:9000');
 });
-
-
-
-// function
-
-// default: {
-//     // function
-// }

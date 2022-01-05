@@ -5,7 +5,9 @@ import IndexPage from '../components/indexPage/indexPage.component';
 // Компоненты о проекте
 import About from '../components/about/about.component';
 import aboutSubComponentFirst from '../components/about/aboutSubComponentFirst/aboutSubComponentFirst.component';
-import aboutSubComponentSecond from '../components/about/aboutSubComponentSecond/aboutSubComponentSecond.component';
+
+// Пример отложенной загрузки компонента
+const aboutSubComponentSecond = React.lazy(() => import('../components/about/aboutSubComponentSecond/aboutSubComponentSecond.component'));
 
 export const routes = [
     {
@@ -32,8 +34,8 @@ export const routes = [
                 path: "/about/second",
                 exact: true,
                 component: aboutSubComponentSecond,
-                fallback: <div> Loading... </div>
+                fallback: <div>Loading... </div>
             }
         ],
-        fallback: <div> Loading... </div>
+        fallback: <div>Loading... </div>
     }];
