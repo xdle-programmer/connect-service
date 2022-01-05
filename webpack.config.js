@@ -19,7 +19,8 @@ module.exports = {
 
     // output files and chunks
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist/'),
+        publicPath: '/',
         filename: 'build/[name].js',
     },
 
@@ -41,7 +42,7 @@ module.exports = {
     // webpack plugins
     plugins: [
 
-        // extract css to external stylesheet file
+        // // extract css to external stylesheet file
         new MiniCssExtractPlugin({
             filename: 'build/styles.css'
         }),

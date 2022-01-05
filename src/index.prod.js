@@ -1,11 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppProvider from './provider/Provider';
+import './markup/import.scss';
 
-// import App components
-import AppProvider from "./components/appProvider/appProvider";
-import {BrowserRouter} from "react-router-dom";
+ReactDOM.hydrate(<AppProvider/>, document.getElementById('app'));
 
-// compile App component in `#app` HTML element
-ReactDOM.hydrate(<BrowserRouter>
-    <AppProvider/>
-</BrowserRouter>, document.getElementById('app'));

@@ -1,13 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
+import AppProvider from './provider/Provider';
+import './markup/import.scss';
 
-// import App components
-import AppProvider from "./components/appProvider/appProvider";
-
-// compile App component in `#app` HTML element
-ReactDOM.render(
-    <BrowserRouter>
-        <AppProvider/>
-    </BrowserRouter>
-    , document.getElementById('app'));
+ReactDOM.render(<AppProvider/>, document.getElementById('app'));

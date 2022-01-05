@@ -1,8 +1,10 @@
 import React, {Suspense} from 'react';
 import {Redirect, Route} from 'react-router-dom';
+
 //import {user} from '../index';
 
 const RouteWithSubRoutes = (route) => {
+
     /** Authenticated flag */
     //const authenticated: boolean = user.authenticated;
 
