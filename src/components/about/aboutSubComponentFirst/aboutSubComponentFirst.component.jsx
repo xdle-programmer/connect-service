@@ -1,12 +1,11 @@
 import React from 'react';
 
-const aboutSubComponentFirst = () => {
-
+function AboutSubComponentFirst() {
     return (
         <div>
             <b>Внутренний компонент 1</b>
         </div>
     );
-};
+}
 
-export default aboutSubComponentFirst;
+export default AboutSubComponentFirst;

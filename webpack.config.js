@@ -7,11 +7,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 
-    // webpack optimization mode
-    mode: ('development' === process.env.NODE_ENV ? 'development' : 'production'),
+    // webpack optimization`s mode
+    mode: (process.env.NODE_ENV === 'development' ? 'development' : 'production'),
 
     // entry files
-    entry: 'development' === process.env.NODE_ENV ? [
+    entry: process.env.NODE_ENV === 'development' ? [
         './src/index.dev.js', // in development
     ] : [
         './src/index.prod.js', // in production
@@ -30,13 +30,13 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: ['babel-loader'],
             },
             {
                 test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-            }
-        ]
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+            },
+        ],
     },
 
     // webpack plugins
@@ -44,10 +44,10 @@ module.exports = {
 
         // // extract css to external stylesheet file
         new MiniCssExtractPlugin({
-            filename: 'build/styles.css'
+            filename: 'build/styles.css',
         }),
 
-        // prepare HTML file with assets
+        // prepare HTML-file with assets
         new HTMLWebpackPlugin({
             filename: 'index.html',
             template: path.resolve(__dirname, 'src/index.html'),
@@ -59,9 +59,9 @@ module.exports = {
             patterns: [
                 {
                     from: path.resolve(__dirname, 'src/assets'),
-                    to: path.resolve(__dirname, 'dist/assets')
-                }
-            ]
+                    to: path.resolve(__dirname, 'dist/assets'),
+                },
+            ],
         }),
     ],
 
@@ -83,9 +83,9 @@ module.exports = {
                     chunks: 'all', // both : consider sync + async chunks for evaluation
                     name: 'vendor', // name of chunk file
                     test: /node_modules/, // test regular expression
-                }
-            }
-        }
+                },
+            },
+        },
     },
 
     // development server configuration
@@ -95,6 +95,6 @@ module.exports = {
     },
 
     // generate source map
-    devtool: 'source-map'
+    devtool: 'source-map',
 
 };

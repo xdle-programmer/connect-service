@@ -1,8 +1,8 @@
-import {SET_EXAMPLE} from '../types';
+import { SET_EXAMPLE } from '../types';
 
-export const setExample = (data) => dispatch => {
+export const setExample = (data) => (dispatch) => {
     dispatch({
         type: SET_EXAMPLE,
-        payload: data
+        payload: data,
     });
 };

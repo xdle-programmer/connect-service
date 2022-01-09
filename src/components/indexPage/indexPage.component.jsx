@@ -1,23 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Link} from "react-router-dom";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {setExample} from '../../store/actions/exampleActions';
+import { setExample } from '../../store/actions/exampleActions';
 
-const IndexPage = (props) => {
-
+function IndexPage() {
     // Импорт диспатчера
     const dispatch = useDispatch();
 
     // Подписка на изменение стейта тестовой переменной
-    const storeExampleVariable = useSelector(state => state.example);
+    const storeExampleVariable = useSelector((state) => state.example);
 
     // Локальный стейт для хранения значения инпута
     const [exampleVariable, setExampleVariable] = useState('');
 
     // Функция для получения локального значения из инпута и передачи его в стейт
     const setExampleInputValue = (event) => {
-        const value = event.target.value;
+        const { value } = event.target;
         setExampleVariable(value);
     };
 
@@ -31,15 +29,26 @@ const IndexPage = (props) => {
         <div className="index-page">
             <h1 className="index-page__title">Тестовая главная страница</h1>
 
-            <p className="index-page__example">Тестовая переменная из стора: <b>{storeExampleVariable}</b></p>
+            <p className="index-page__example">
+                Тестовая переменная из стора:
+                <b>{storeExampleVariable}</b>
+            </p>
 
             <div className="index-page__form">
-                <input className="input" value={exampleVariable} onChange={setExampleInputValue} name="title"/>
-                <button className="button" onClick={dispatchExample}>Отправить в стор значение из инпута</button>
+                <input
+                    className="input"
+                    value={exampleVariable}
+                    onChange={setExampleInputValue}
+                    name="title"
+                />
+                <button type="button" className="button" onClick={dispatchExample}>
+                    Отправить в стор значение из
+                    инпута
+                </button>
             </div>
 
         </div>
     );
-};
+}
 
 export default IndexPage;

@@ -1,9 +1,9 @@
 import React from 'react';
-import {routes} from "../../router/config";
-import Router from "../../router/Router";
-import {Link, Switch, Route} from "react-router-dom";
+import { Link } from 'react-router-dom';
+import routes from '../../router/config';
+import Router from '../../router/Router';
 
-const App = () => {
+function App() {
     return (
         <div>
 
@@ -24,10 +24,9 @@ const App = () => {
                 </div>
             </div>
 
-            <Router routes={routes}/>
+            <Router routes={routes} />
         </div>
     );
-
-};
+}
 
 export default App;

@@ -3,4 +3,5 @@ import ReactDOM from 'react-dom';
 import AppProvider from './provider/Provider';
 import './markup/import.scss';
 
-ReactDOM.render(<AppProvider/>, document.getElementById('app'));
+// eslint-disable-next-line react/jsx-filename-extension
+ReactDOM.render(<AppProvider />, document.getElementById('app'));

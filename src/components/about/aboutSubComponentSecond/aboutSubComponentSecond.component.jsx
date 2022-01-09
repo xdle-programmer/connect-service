@@ -1,6 +1,6 @@
 import React from 'react';
 
-const aboutSubComponentSecond = (props) => {
+function AboutSubComponentSecond() {
     return (
         <div>
             <b>Внутренний компонент 2</b>
@@ -1539,6 +1539,6 @@ const aboutSubComponentSecond = (props) => {
             <b>Внутренний компонент 2</b>
         </div>
     );
-};
+}
 
-export default aboutSubComponentSecond;
+export default AboutSubComponentSecond;

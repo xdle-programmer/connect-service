@@ -1,42 +1,37 @@
-import React, {Suspense} from 'react';
-import {Redirect, Route} from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Redirect, Route } from 'react-router-dom';
 
-//import {user} from '../index';
+function RouteHandler(props) {
+    const { route } = props;
 
-const RouteWithSubRoutes = (route) => {
+    return (
+        <Route
+            path={route.path}
+            render={() => {
+                if (route.redirect) {
+                    return <Redirect to={route.redirect} />;
+                }
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                return route.component && <route.component {...props} routes={route.routes} />;
+            }}
+        />
+    );
+}
 
-    /** Authenticated flag */
-        //const authenticated: boolean = user.authenticated;
-
-    const RouteHandler = () => {
-            return (
-                <Route
-                    path={route.path}
-                    render={(props) => {
-                        if (route.redirect) {
-                            return <Redirect to={route.redirect}/>;
-                        } else {
-                            return route.component && <route.component {...props} routes={route.routes}/>;
-                        }
-                    }
-                    }
-                />
-            );
-        };
+function RouteWithSubRoutes(props) {
+    const route = props;
+    const { fallback } = props;
 
     if (typeof window === 'object') {
         return (
-            <Suspense fallback={route.fallback}>
-                <RouteHandler/>
+            <Suspense fallback={fallback}>
+                <RouteHandler route={route} />
             </Suspense>
         );
-    } else {
-        return (
-            <RouteHandler/>
-        );
     }
-
-
-};
+    return (
+        <RouteHandler route={route} />
+    );
+}
 
 export default RouteWithSubRoutes;

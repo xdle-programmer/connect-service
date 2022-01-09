@@ -1,36 +1,34 @@
-import React, {Suspense} from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-import App from '../components/app/app.component.jsx';
-import store from "../store/store";
-import {Provider} from "react-redux";
+import { Provider } from 'react-redux';
+import App from '../components/app/app.component';
+import store from '../store/store';
 
-import Router from "../router/Router";
-import {routes} from "../router/config";
+import Router from '../router/Router';
+import routes from '../router/config';
 
-const AppProvider = () => {
+function ProviderHandler() {
+    return (
+        <Provider store={store}>
+            <App>
+                <Router routes={routes} />
+            </App>
+        </Provider>
+    );
+}
 
-    const ProviderHandler = () => {
-
-        return (
-            <Provider store={store}>
-                <App>
-                    <Router routes={routes}/>
-                </App>
-            </Provider>
-        );
-    };
-
+function AppProvider() {
     if (typeof window === 'object') {
         return (
             <BrowserRouter>
-                <ProviderHandler/>
+                <ProviderHandler />
             </BrowserRouter>
         );
-    } else {
-        return (
-            <ProviderHandler/>
-        );
     }
-};
+    return (
+        <ProviderHandler />
+    );
+}
+
 export default AppProvider;

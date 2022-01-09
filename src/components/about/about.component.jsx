@@ -1,16 +1,25 @@
 import React from 'react';
-import {Link, Switch, Route} from "react-router-dom";
-import RouteWithSubRoutes from "../../router/RouterWithSubRoutes";
+import { Switch } from 'react-router-dom';
+import RouteWithSubRoutes from '../../router/RouterWithSubRoutes';
 
-const About = (props) => {
+function About(props) {
+    const { routes } = props;
 
     return (
         <div>
             <h1>Страница о проекте</h1>
 
-            <Switch>{props.routes.map((route) => <RouteWithSubRoutes key={route.path} {...route} />)}</Switch>
+            <Switch>
+                {routes.map((route) => (
+                    <RouteWithSubRoutes
+                        key={route.path}
+                        /* eslint-disable-next-line react/jsx-props-no-spreading */
+                        {...route}
+                    />
+                ))}
+            </Switch>
         </div>
     );
-};
+}
 
 export default About;

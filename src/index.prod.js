@@ -3,5 +3,4 @@ import ReactDOM from 'react-dom';
 import AppProvider from './provider/Provider';
 import './markup/import.scss';
 
-ReactDOM.hydrate(<AppProvider/>, document.getElementById('app'));
-
+ReactDOM.hydrate(<AppProvider />, document.getElementById('app'));
