@@ -1,9 +1,3 @@
-const Counter = require( '../src/components/counter/counter.component.jsx' );
+const routes = require('../src/router/config');
 
-module.exports = [
-    {
-        path: '/',
-        exact: true,
-        component: Counter,
-    },
-];
+module.exports = routes.routes;

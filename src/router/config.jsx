@@ -1,65 +1,44 @@
-import React, { ComponentType, lazy, LazyExoticComponent, ReactNode } from 'react';
-import Counter from '../components/counter/counter.component'
+import React from 'react';
 
-// export interface IRoute {
-//     // Path, like in basic prop
-//     path: string;
-//     // Exact, like in basic prop
-//     exact: boolean;
-//     // Preloader for lazy loading
-//     fallback: NonNullable<ReactNode> | null;
-//     // Lazy Loaded component
-//     component?: LazyExoticComponent<ComponentType<any>>;
-//     // Sub routes
-//     routes?: IRoute[];
-//     // Redirect path
-//     redirect?: string;
-//     // If router is private, this is going to be true
-//     private?: boolean;
-// }
+import IndexPage from '../components/indexPage/indexPage.component';
 
-export const routes = [
+// Компоненты о проекте
+import About from '../components/about/about.component';
+import AboutSubComponentFirst
+    from '../components/about/aboutSubComponentFirst/aboutSubComponentFirst.component';
+
+// Пример отложенной загрузки компонента
+const AboutSubComponentSecond = React.lazy(() => import('../components/about/aboutSubComponentSecond/aboutSubComponentSecond.component'));
+
+const routes = [
     {
         path: '/',
         exact: true,
-        component: Counter,
-        fallback: <div> Loading... </div>
+        component: IndexPage,
+        fallback: <div> Loading... </div>,
     },
     {
         path: '/home',
-        exact: true,
         redirect: '/',
-        component: Counter,
-        fallback: <div> Loading... </div>
-    }
-];
+    },
+    {
+        path: '/about',
+        component: About,
+        routes: [
+            {
+                path: '/about/first',
+                exact: true,
+                component: AboutSubComponentFirst,
+                fallback: <div> Loading... </div>,
+            },
+            {
+                path: '/about/second',
+                exact: true,
+                component: AboutSubComponentSecond,
+                fallback: <div>Loading... </div>,
+            },
+        ],
+        fallback: <div>Loading... </div>,
+    }];
 
-// {
-//     path: '/home',
-//     exact: false,
-//     private: false,
-//     fallback: <div> Loading... </div>,
-// },
-// {
-//     path: '/protected',
-//     exact: false,
-//     private: true,
-//     fallback: <div> Loading... </div>
-// }
-
-// routes: [
-//     {
-//         path: '/home/signup',
-//         exact: false,
-//         private: false,
-//         fallback: <div> Loading... </div>
-//     },
-//     {
-//         path: '/home/login',
-//         exact: false,
-//         private: false,
-//         fallback: <div> Loading... </div>
-//     }
-// ]
-
-//   component: lazy(() => import('../components/Protected')),
+export default routes;

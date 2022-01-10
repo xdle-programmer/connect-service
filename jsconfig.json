@@ -5,8 +5,8 @@
             "components/*": [
                 "src/components/*"
             ],
-            "hocs/*": [
-                "src/hocs/*"
+            "hooks/*": [
+                "src/hooks/*"
             ],
             "services/*": [
                 "src/services/*"

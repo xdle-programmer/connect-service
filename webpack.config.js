@@ -1,17 +1,17 @@
-const path = require( 'path' );
-const HTMLWebpackPlugin = require( 'html-webpack-plugin' );
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /*-------------------------------------------------*/
 
 module.exports = {
 
-    // webpack optimization mode
-    mode: ( 'development' === process.env.NODE_ENV ? 'development' : 'production' ),
+    // webpack optimization`s mode
+    mode: (process.env.NODE_ENV === 'development' ? 'development' : 'production'),
 
     // entry files
-    entry: 'development' === process.env.NODE_ENV ? [
+    entry: process.env.NODE_ENV === 'development' ? [
         './src/index.dev.js', // in development
     ] : [
         './src/index.prod.js', // in production
@@ -19,7 +19,8 @@ module.exports = {
 
     // output files and chunks
     output: {
-        path: path.resolve( __dirname, 'dist' ),
+        path: path.resolve(__dirname, 'dist/'),
+        publicPath: '/',
         filename: 'build/[name].js',
     },
 
@@ -29,46 +30,46 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                use: [ 'babel-loader' ]
+                use: ['babel-loader'],
             },
             {
                 test: /\.scss$/,
-                use: [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader' ]
-            }
-        ]
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+            },
+        ],
     },
 
     // webpack plugins
     plugins: [
 
-        // extract css to external stylesheet file
-        new MiniCssExtractPlugin( {
-            filename: 'build/styles.css'
-        } ),
+        // // extract css to external stylesheet file
+        new MiniCssExtractPlugin({
+            filename: 'build/styles.css',
+        }),
 
-        // prepare HTML file with assets
-        new HTMLWebpackPlugin( {
+        // prepare HTML-file with assets
+        new HTMLWebpackPlugin({
             filename: 'index.html',
-            template: path.resolve( __dirname, 'src/index.html' ),
+            template: path.resolve(__dirname, 'src/index.html'),
             minify: false,
-        } ),
+        }),
 
         // copy static files from `src` to `dist`
-        new CopyWebpackPlugin( {
+        new CopyWebpackPlugin({
             patterns: [
                 {
-                    from: path.resolve( __dirname, 'src/assets' ),
-                    to: path.resolve( __dirname, 'dist/assets' )
-                }
-            ]
-        } ),
+                    from: path.resolve(__dirname, 'src/assets'),
+                    to: path.resolve(__dirname, 'dist/assets'),
+                },
+            ],
+        }),
     ],
 
     // resolve files configuration
     resolve: {
-        
+
         // file extensions
-        extensions: [ '.js', '.jsx', '.scss' ],
+        extensions: ['.js', '.jsx', '.scss'],
     },
 
     // webpack optimizations
@@ -77,14 +78,14 @@ module.exports = {
             cacheGroups: {
                 default: false,
                 vendors: false,
-                
+
                 vendor: {
                     chunks: 'all', // both : consider sync + async chunks for evaluation
                     name: 'vendor', // name of chunk file
                     test: /node_modules/, // test regular expression
-                }
-            }
-        }
+                },
+            },
+        },
     },
 
     // development server configuration
@@ -94,6 +95,6 @@ module.exports = {
     },
 
     // generate source map
-    devtool: 'source-map'
+    devtool: 'source-map',
 
 };

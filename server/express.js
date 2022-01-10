@@ -3,13 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-const {StaticRouter, matchPath} = require('react-router-dom');
+const { StaticRouter } = require('react-router-dom');
 
 // create express application
 const app = express();
 
 // import App component
-const App = require('../src/components/appProvider/appProvider').default;
+// eslint-disable-next-line import/extensions
+const App = require('../src/provider/Provider.jsx').default;
 
 // import routes
 const routes = require('./routes');
@@ -19,24 +20,23 @@ app.get(/\.(js|css|map|ico)$/, express.static(path.resolve(__dirname, '../dist')
 
 // for any other requests, send `index.html` as a response
 app.use('*', async (req, res) => {
-
     // get matched route
-    const matchRoute = routes.find(route => matchPath(req.originalUrl, route));
+    // const matchRoute = routes.find((route) => matchPath(req.originalUrl, route));
 
     // fetch data of the matched component
-    let componentData = {};
+    const componentData = {};
 
     // read `index.html` file
     let indexHTML = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), {
         encoding: 'utf8',
     });
 
-
     // get HTML string from the `App` component
-    let appHTML = ReactDOMServer.renderToString(
+    const appHTML = ReactDOMServer.renderToString(
+        // eslint-disable-next-line react/jsx-filename-extension
         <StaticRouter location={req.originalUrl} context={componentData}>
-            <App/>
-        </StaticRouter>
+            <App />
+        </StaticRouter>,
     );
 
     // populate `#app` element with `appHTML`
@@ -45,7 +45,7 @@ app.use('*', async (req, res) => {
     // set value of `initial_state` global variable
     indexHTML = indexHTML.replace(
         'var initial_state = null;',
-        `var initial_state = ${JSON.stringify(componentData)};`
+        `var initial_state = ${JSON.stringify(componentData)};`,
     );
 
     // set header and status
@@ -59,11 +59,3 @@ app.use('*', async (req, res) => {
 app.listen('9000', () => {
     console.log('Express server started at http://localhost:9000');
 });
-
-
-
-// function
-
-// default: {
-//     // function
-// }

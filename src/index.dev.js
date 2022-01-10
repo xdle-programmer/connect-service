@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppProvider from './provider/Provider';
+import './markup/import.scss';
 
-// import App components
-import AppProvider from "./components/appProvider/appProvider";
-
-// compile App component in `#app` HTML element
-ReactDOM.render(<AppProvider/>, document.getElementById('app'));
+// eslint-disable-next-line react/jsx-filename-extension
+ReactDOM.render(<AppProvider />, document.getElementById('app'));

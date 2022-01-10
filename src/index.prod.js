@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppProvider from './provider/Provider';
+import './markup/import.scss';
 
-// import App components
-import AppProvider from "./components/appProvider/appProvider";
-
-// compile App component in `#app` HTML element
-ReactDOM.hydrate(<AppProvider/>, document.getElementById('app'));
+ReactDOM.hydrate(<AppProvider />, document.getElementById('app'));
