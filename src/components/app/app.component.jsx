@@ -9,6 +9,11 @@ function App() {
 
             <div>
                 Тестовое глобальное меню
+
+                <div>
+                    <a href="/login/google">OAUTH</a>
+                </div>
+
                 <div>
                     <Link to="/home">Вернуться на главную</Link>
                 </div>

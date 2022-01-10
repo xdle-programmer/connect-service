@@ -4,27 +4,99 @@ const path = require('path');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.use(new GoogleStrategy(
+    {
+        clientID: '798018949279-hlrf9bbvn3csejj3tfg0jh3ceugjui8u.apps.googleusercontent.com',
+        clientSecret: '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',
+        callbackURL: 'http://localhost:9000/oauth2/redirect/accounts.google.com',
+    },
+    ((accessToken, refreshToken, profile, cb) => {
+        console.log("CREATE USER")
+        console.log(accessToken)
+        console.log(refreshToken)
+        console.log(profile)
+        console.log("_----_")
+        console.log(cb)
+        console.log("_----_")
+
+        let user = {id: 1, name: "ART"};
+        cb(null, user);
+    }),
+));
 
 // create express application
 const app = express();
+
+const session = require("express-session"),
+    bodyParser = require("body-parser");
+
+app.use(session({ secret: "cats" }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // import App component
 // eslint-disable-next-line import/extensions
 const App = require('../src/provider/Provider.jsx').default;
 
 // import routes
-const routes = require('./routes');
+// const routes = require('./routes');
 
 // serve static assets
 app.get(/\.(js|css|map|ico)$/, express.static(path.resolve(__dirname, '../dist')));
 
+app.get('/login/test', () => {
+    console.log('TEST LOGIN');
+});
+
+app.get(
+    '/login/google',
+    passport.authenticate('google', { scope: ['profile']}),
+);
+
+app.get(
+    '/oauth2/redirect/accounts.google.com',
+    passport.authenticate('google', { failureRedirect: '/login', failureMessage: true}),
+    (req, res) => {
+        console.log("RES REDIRECT ___________________________")
+        console.log(req.user)
+        console.log(" ___________________________ RES REDIRECT")
+
+        res.user = req.user;
+        res.redirect('/');
+    },
+);
+
 // for any other requests, send `index.html` as a response
 app.use('*', async (req, res) => {
+
+    console.log("USE______")
+    console.log(req.user)
+    console.log("_____USE")
+    //console.log(res)
     // get matched route
     // const matchRoute = routes.find((route) => matchPath(req.originalUrl, route));
 
     // fetch data of the matched component
     const componentData = {};
+
+    componentData.user = req.user;
+    const userTest = req.user;
+    console.log("userTest")
+    console.log(userTest)
 
     // read `index.html` file
     let indexHTML = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), {
@@ -35,7 +107,7 @@ app.use('*', async (req, res) => {
     const appHTML = ReactDOMServer.renderToString(
         // eslint-disable-next-line react/jsx-filename-extension
         <StaticRouter location={req.originalUrl} context={componentData}>
-            <App />
+            <App user={userTest} />
         </StaticRouter>,
     );
 
@@ -51,6 +123,9 @@ app.use('*', async (req, res) => {
     // set header and status
     res.contentType('text/html');
     res.status(200);
+
+    console.log("CD")
+    console.log(componentData)
 
     return res.send(indexHTML);
 });

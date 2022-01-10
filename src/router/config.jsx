@@ -22,6 +22,10 @@ const routes = [
         redirect: '/',
     },
     {
+        path: '/oauth2/redirect/accounts.google.com',
+        redirect: '/',
+    },
+    {
         path: '/about',
         component: About,
         routes: [

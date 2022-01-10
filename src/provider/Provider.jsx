@@ -18,7 +18,9 @@ function ProviderHandler() {
     );
 }
 
-function AppProvider() {
+function AppProvider(user) {
+    console.log('TEST: ');
+    console.log(user);
     if (typeof window === 'object') {
         return (
             <BrowserRouter>
