@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
+// import { User as UserModel } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import App from '../components/app/app.component';
 import store from '../store/store';
 

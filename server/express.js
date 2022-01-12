@@ -7,13 +7,11 @@ const { StaticRouter } = require('react-router-dom');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-
-
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done) => {
     done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
@@ -24,15 +22,18 @@ passport.use(new GoogleStrategy(
         callbackURL: 'http://localhost:9000/oauth2/redirect/accounts.google.com',
     },
     ((accessToken, refreshToken, profile, cb) => {
-        console.log("CREATE USER")
-        console.log(accessToken)
-        console.log(refreshToken)
-        console.log(profile)
-        console.log("_----_")
-        console.log(cb)
-        console.log("_----_")
+        console.log('CREATE USER');
+        console.log(accessToken);
+        console.log(refreshToken);
+        console.log(profile);
+        console.log('_----_');
+        console.log(cb);
+        console.log('_----_');
 
-        let user = {id: 1, name: "ART"};
+        const user = {
+            id: 1,
+            name: 'ART',
+        };
         cb(null, user);
     }),
 ));
@@ -40,10 +41,20 @@ passport.use(new GoogleStrategy(
 // create express application
 const app = express();
 
-const session = require("express-session"),
-    bodyParser = require("body-parser");
+const session = require('express-session');
+const bodyParser = require('body-parser');
 
-app.use(session({ secret: "cats" }));
+const errorHandler = require('../utilites/errorHandler/errorHandler').default;
+const User = require('../models/user/User').default;
+
+User.create('Никита', '123')
+    .then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        errorHandler(error);
+    });
+
+app.use(session({ secret: 'cats' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,16 +75,19 @@ app.get('/login/test', () => {
 
 app.get(
     '/login/google',
-    passport.authenticate('google', { scope: ['profile']}),
+    passport.authenticate('google', { scope: ['profile'] }),
 );
 
 app.get(
     '/oauth2/redirect/accounts.google.com',
-    passport.authenticate('google', { failureRedirect: '/login', failureMessage: true}),
+    passport.authenticate('google', {
+        failureRedirect: '/login',
+        failureMessage: true,
+    }),
     (req, res) => {
-        console.log("RES REDIRECT ___________________________")
-        console.log(req.user)
-        console.log(" ___________________________ RES REDIRECT")
+        console.log('RES REDIRECT ___________________________');
+        console.log(req.user);
+        console.log(' ___________________________ RES REDIRECT');
 
         res.user = req.user;
         res.redirect('/');
@@ -82,11 +96,10 @@ app.get(
 
 // for any other requests, send `index.html` as a response
 app.use('*', async (req, res) => {
-
-    console.log("USE______")
-    console.log(req.user)
-    console.log("_____USE")
-    //console.log(res)
+    console.log('USE______');
+    console.log(req.user);
+    console.log('_____USE');
+    // console.log(res)
     // get matched route
     // const matchRoute = routes.find((route) => matchPath(req.originalUrl, route));
 
@@ -95,8 +108,8 @@ app.use('*', async (req, res) => {
 
     componentData.user = req.user;
     const userTest = req.user;
-    console.log("userTest")
-    console.log(userTest)
+    console.log('userTest');
+    console.log(userTest);
 
     // read `index.html` file
     let indexHTML = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), {
@@ -124,8 +137,8 @@ app.use('*', async (req, res) => {
     res.contentType('text/html');
     res.status(200);
 
-    console.log("CD")
-    console.log(componentData)
+    console.log('CD');
+    console.log(componentData);
 
     return res.send(indexHTML);
 });
