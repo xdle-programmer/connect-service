@@ -12,6 +12,15 @@ datasource db {
 
 model User {
   id      Int      @id @default(autoincrement())
-  name    String?  @db.VarChar(255)
-  last_name   String   @unique @db.VarChar(255)
+  status   Int   @db.SmallInt
+  auths UserAuth[]
 }
+
+model UserAuth{
+id      Int      @id @default(autoincrement())
+email String @unique
+password String
+user User @relation(fields: [user_id], references: [id])
+user_id Int
+}
+

@@ -47,12 +47,24 @@ const bodyParser = require('body-parser');
 const errorHandler = require('../utilites/errorHandler/errorHandler').default;
 const User = require('../models/user/User').default;
 
-User.create('Никита', '123')
+User.manualRegister('TestMai895234733', '2222333')
     .then((response) => {
         console.log(response);
+        User.comparePassword('2222333', response.userAuth.password).then((res)=>{
+            console.log(res);
+        })
     }).catch((error) => {
-        errorHandler(error);
-    });
+    errorHandler(error);
+});
+
+
+
+// User.create('Никита', '123')
+//     .then((response) => {
+//         console.log(response);
+//     }).catch((error) => {
+//         errorHandler(error);
+//     });
 
 app.use(session({ secret: 'cats' }));
 app.use(bodyParser.urlencoded({ extended: false }));
