@@ -1,34 +1,50 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
+
 const prisma = new PrismaClient();
-
-
-// comparePassword = function(plainPass, hashword, callback) {
-//     bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {
-//         return err == null ?
-//             callback(null, isPasswordMatch) :
-//             callback(err);
-//     });
-// };
 
 class UserModel {
     constructor() {
         this.text = 'тест прошел';
         this.modelUser = prisma.user;
         this.modelAuth = prisma.userAuth;
+        this.modelOAuth = prisma.userOAuth;
     }
 
-    create(user, password) {
-        return this.modelUser.create({
-            data: {
-                name: user,
-                last_name: password,
+    // CRUD
+    get() {
+        return this.modelUser.findMany();
+    }
+
+    get(id) {
+        return this.modelUser.findUnique({
+            where: {
+                id,
             },
         });
     }
+    //--
+
+    // AUTH
+    async manualLogin(email, password) {
+        const user = await this.modelAuth.findFirst({
+            where: {
+                email,
+            },
+            include: {
+                user: true,
+            },
+        });
+
+        if (user !== null) {
+            let isCompare = await this.comparePassword(password, user.password);
+            if (isCompare == false) return null
+        }
+
+        return user;
+    }
 
     async manualRegister(email, password) {
-
         const user = await this.modelUser.create({
             data: {
                 status: 1,
@@ -44,31 +60,32 @@ class UserModel {
             },
         });
 
-        return { status: 'Ok' },{'user': user},{'userAuth': userAuth};
+        return ({ status: 'Ok' }, { user }, { userAuth });
     }
 
-    async comparePassword(password, userPassword){
-        const validPassword = await bcrypt.compare(password, userPassword);
-        if (validPassword) {
-            return({ message: "Valid password" });
-        } else {
-            return({ error: "Invalid Password" });
-        }
-    }
-
-    find(user) {
-        return 'Проверяем, есть ли юзер';
-    }
-
-    get() {
-        return this.modelUser.findMany();
-    }
-
-    async hashPassword(password){
+    async hashPassword(password) {
         const salt = await bcrypt.genSalt(10);
         return await bcrypt.hash(password, salt);
     }
 
+    async comparePassword(password, userPassword) {
+        const validPassword = await bcrypt.compare(password, userPassword);
+        if (validPassword) {
+            return true;
+        }
+        return false;
+    }
+    //--
+
+    // OAUTH
+    async oauthRegister(data){
+        return null
+    }
+
+    async oauthLogin(data){
+        return null
+    }
+    //--
 }
 
 const User = new UserModel();

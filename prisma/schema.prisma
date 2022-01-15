@@ -14,6 +14,8 @@ model User {
   id      Int      @id @default(autoincrement())
   status   Int   @db.SmallInt
   auths UserAuth[]
+  oauths UserOAuth[]
+   createdAt DateTime @default(now())
 }
 
 model UserAuth{
@@ -22,5 +24,29 @@ email String @unique
 password String
 user User @relation(fields: [user_id], references: [id])
 user_id Int
+ createdAt DateTime @default(now())
+}
+
+model UserOAuth{
+id      Int      @id @default(autoincrement())
+type OAuthType
+user User @relation(fields: [user_id], references: [id])
+user_id Int
+data UserOAuthData[]
+ createdAt DateTime @default(now())
+}
+
+enum OAuthType {
+  GOOGLE
+  FACEBOOK
+}
+
+model UserOAuthData{
+id      Int      @id @default(autoincrement())
+type String?
+value String?
+oauth UserOAuth @relation(fields: [oauth_id], references: [id])
+oauth_id Int
+ createdAt DateTime @default(now())
 }
 

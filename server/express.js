@@ -6,15 +6,46 @@ const ReactDOMServer = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const jwt = require('jsonwebtoken');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const errorHandler = require('../utilites/errorHandler/errorHandler').default;
+const User = require('../models/user/User').default;
+const App = require('../src/provider/Provider.jsx').default;
+const dotenv = require('dotenv');
+
+dotenv.config();
+console.log(process.env.TOKEN_SECRET);
+
+function generateAccessToken(username) {
+    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+}
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+
+    if (token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+        console.log("JWT_____")
+        console.log(err)
+
+        if (err) return res.sendStatus(403)
+
+        console.log(user)
+        req.user = user
+        console.log("_____JWT")
+        next()
+    })
+}
 
 passport.serializeUser((user, done) => {
     done(null, user);
 });
-
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
-
 passport.use(new GoogleStrategy(
     {
         clientID: '798018949279-hlrf9bbvn3csejj3tfg0jh3ceugjui8u.apps.googleusercontent.com',
@@ -38,51 +69,31 @@ passport.use(new GoogleStrategy(
     }),
 ));
 
+
 // create express application
 const app = express();
 
-const session = require('express-session');
-const bodyParser = require('body-parser');
+User.manualLogin('TestMai895234733','2222333').then(res=>{
+    console.log(res);
+})
 
-const errorHandler = require('../utilites/errorHandler/errorHandler').default;
-const User = require('../models/user/User').default;
-
-User.manualRegister('TestMai895234733', '2222333')
-    .then((response) => {
-        console.log(response);
-        User.comparePassword('2222333', response.userAuth.password).then((res)=>{
-            console.log(res);
-        })
-    }).catch((error) => {
-    errorHandler(error);
-});
-
-
-
-// User.create('Никита', '123')
-//     .then((response) => {
-//         console.log(response);
-//     }).catch((error) => {
-//         errorHandler(error);
-//     });
 
 app.use(session({ secret: 'cats' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// import App component
-// eslint-disable-next-line import/extensions
-const App = require('../src/provider/Provider.jsx').default;
-
-// import routes
-// const routes = require('./routes');
 
 // serve static assets
 app.get(/\.(js|css|map|ico)$/, express.static(path.resolve(__dirname, '../dist')));
 
-app.get('/login/test', () => {
-    console.log('TEST LOGIN');
+app.get('/login/test', (req,res) => {
+    const token = generateAccessToken({ username: "Vasya" });
+    res.json(token);
+});
+
+app.get('/login/test3', authenticateToken, (req,res) => {
+    res.json("AAAAAAAA");
 });
 
 app.get(
